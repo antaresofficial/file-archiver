@@ -4,9 +4,12 @@
 #include <regex.h>
 #include <ctype.h>
 
+#define LEN 28
+
 int main(int argc, char* argv[]) {
   char *action = argv[1];
   char *path = argv[2];
+  const int len = LEN;
 
   if (!strcmp(action, "pack") && path) {
     FILE *input_file = fopen(path, "r");
@@ -15,7 +18,7 @@ int main(int argc, char* argv[]) {
     regex_t regex;
     int reti;
 
-    char str[128];
+    char str[len];
     char *content, *new_content;
 
     if (input_file == NULL) {
@@ -23,14 +26,14 @@ int main(int argc, char* argv[]) {
       exit(1);
     }
 
-    content = fgets(str, 126, input_file);
+    content = fgets(str, len - 2, input_file);
     int i = 0;
     int k = 0;
     char upper_formated[128];
 
     while(content[i] != '\0') {
       char symb[1];
-      char upper[2] = "!";
+      const char upper[1] = "!";
       *symb = content[i];
 
       reti = regcomp(&regex, "[A-Z]", 0);
